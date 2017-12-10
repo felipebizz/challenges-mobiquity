@@ -1,0 +1,13 @@
+### Eclipse ###
+# Project setup
+.project
+.classpath
+.settings
+*~
+# Target dir (compilation/build)
+#   This will remove any directory/file with the name "target", everywhere.
+#   So, maybe it should be moved to each module's ".gitignore" and changed to "/target".
+target
+dist
+.idea
+*.iml
