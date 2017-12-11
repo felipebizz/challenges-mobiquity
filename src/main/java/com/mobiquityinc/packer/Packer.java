@@ -8,6 +8,16 @@ import com.mobiquityinc.packer.model.PackagingScenario;
 import java.util.LinkedList;
 import java.util.List;
 
+
+/**
+ * <p>The algorithm below is an adaptation of the dynamic programming solution for the knapsack problem. The original
+ * algorithm considers only integer weights and is only looking for the highest cost (the number!) and not which
+ * items were summed to get to such cost.</p>
+ * <p>One last modification in the original algorithm is the final search for the less "havier" combination of items in
+ * case it finds two or more results that are equal to the highest possible cost.</p>
+ * <p>There is also an optimization in the reading component, where each "overweighted" item is added to a separate
+ * list, so they don't get evaluated by the knapsack algorithm, thus saving some useless iterations.</p>
+ */
 public class Packer {
 
     public static String pack(String _filename) throws APIException {
@@ -27,7 +37,7 @@ public class Packer {
     }
 
     /**
-     * Searches for the highest total cost combining one or more items that fit on the package.
+     * <p>Searches for the highest total cost combining one or more items that fit on the package.</p>
      */
     public Package maximizeCostOfPackage(PackagingScenario _scenario) throws APIException {
         List<Package> finalCandidatePackages = this.calculateBestPackages(_scenario);
@@ -50,6 +60,7 @@ public class Packer {
                         // the item fits in the free weight of the package!
                         currentPackage.addItem(currentItem);
                     } else {
+                        // to fit, we need to remove some items currently in the package
                         currentPackage = this.verifyAndSwitchItemsInCurrentPackage(currentItem, currentPackage,
                                                                                    previousIteration);
                     }
