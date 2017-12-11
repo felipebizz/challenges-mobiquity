@@ -1,6 +1,7 @@
 package com.mobiquityinc.packer.test;
 
 import com.mobiquityinc.exception.APIException;
+import com.mobiquityinc.packer.InputReader;
 import com.mobiquityinc.packer.Packer;
 import com.mobiquityinc.packer.model.Item;
 import com.mobiquityinc.packer.model.PackagingScenario;
@@ -88,6 +89,34 @@ public class InputReaderTestcase extends AnyTestcase {
         }
     }
 
+    @Test
+    public void loadSuccessfullyFromFile() {
+        try {
+            InputReader reader = new InputReader();
+            Collection<PackagingScenario> scenarios = reader.readFile("./src/test/resources/input.txt");
+            assertEquals(4, scenarios.size());
+            for (PackagingScenario singeScenario: scenarios) {
+                if (singeScenario.getPackageMaxWeight() == 81) {
+                    assertEquals(5, singeScenario.getItemsToPack().size());
+                    assertEquals(1, singeScenario.getOverweightItemsCount());
+                } else if (singeScenario.getPackageMaxWeight() == 8) {
+                    assertEquals(0, singeScenario.getItemsToPack().size());
+                    assertEquals(1, singeScenario.getOverweightItemsCount());
+                } else if (singeScenario.getPackageMaxWeight() == 75) {
+                    assertEquals(5, singeScenario.getItemsToPack().size());
+                    assertEquals(4, singeScenario.getOverweightItemsCount());
+                } else if (singeScenario.getPackageMaxWeight() == 56) {
+                    assertEquals(7, singeScenario.getItemsToPack().size());
+                    assertEquals(2, singeScenario.getOverweightItemsCount());
+                } else {
+                    fail("Not expecting to load a scenario with max weight of " + singeScenario.getPackageMaxWeight());
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Not expecting exceptions of type " + e.getClass());
+        }
+    }
 }
 
 
