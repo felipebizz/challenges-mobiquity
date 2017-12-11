@@ -1,13 +1,11 @@
 package com.mobiquityinc.packer.test;
 
 import com.mobiquityinc.exception.APIException;
-import com.mobiquityinc.packer.InputReader;
 import com.mobiquityinc.packer.Packer;
 import com.mobiquityinc.packer.model.Item;
 import com.mobiquityinc.packer.model.PackagingScenario;
 import org.junit.Test;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
