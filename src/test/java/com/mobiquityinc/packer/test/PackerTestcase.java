@@ -158,4 +158,53 @@ public class PackerTestcase extends AnyTestcase {
             fail("Not expecting exceptions of type " + e.getClass());
         }
     }
+
+    @Test
+    public void testAVeryBadScenario() {
+        try {
+            Collection<PackagingScenario> scenarios =
+                    this.getRowReader().readFile("16 : (1,1,€113) (2,1,€40) (3,1,€10) (4,1,€16) " +
+                            " (5,1,€36) (6,1,€79) (7,1,€45) (8,1,€279) (9,1,€64) (10,1,€26) (11,1,€9) (12,1,€81) " +
+                            " (13,1,€7) (14,1,€112) (15,1,€12)");
+            // sanity check
+            assertEquals(1, scenarios.size());
+            PackagingScenario singeScenario = scenarios.iterator().next();
+            assertEquals(16, singeScenario.getPackageMaxWeight());
+            assertEquals(15, singeScenario.getItemsToPack().size());
+            assertEquals(0, singeScenario.getOverweightItemsCount());
+            // packer test
+            Packer packer = new Packer();
+            Package packageInfo = packer.maximizeCostOfPackage(singeScenario);
+            String resultString = packageInfo.result2String();
+            assertEquals(35, resultString.length());
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Not expecting exceptions of type " + e.getClass());
+        }
+    }
+
+    @Test
+    public void testLastItemWinsAlone() {
+        try {
+            Collection<PackagingScenario> scenarios =
+                    this.getRowReader().readFile("16 : (1,1,€113) (2,1,€40) (3,1,€10) (4,1,€16) " +
+                            " (5,1,€36) (6,1,€79) (7,1,€45) (8,1,€279) (9,1,€64) (10,1,€26) (11,1,€9) (12,1,€81) " +
+                            " (13,1,€7) (14,1,€112) (15,16,€2222)");
+            // sanity check
+            assertEquals(1, scenarios.size());
+            PackagingScenario singeScenario = scenarios.iterator().next();
+            assertEquals(16, singeScenario.getPackageMaxWeight());
+            assertEquals(15, singeScenario.getItemsToPack().size());
+            assertEquals(0, singeScenario.getOverweightItemsCount());
+            // packer test
+            Packer packer = new Packer();
+            Package packageInfo = packer.maximizeCostOfPackage(singeScenario);
+            String resultString = packageInfo.result2String();
+            assertEquals(2, resultString.length());
+            assertEquals("15", resultString);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail("Not expecting exceptions of type " + e.getClass());
+        }
+    }
 }

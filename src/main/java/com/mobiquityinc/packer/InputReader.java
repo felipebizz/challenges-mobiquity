@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  */
 public class InputReader {
 
-    private Pattern linePattern = Pattern.compile("\\((\\d),(\\d+\\.?\\d*?),€?(\\d+)\\)");
+    private Pattern linePattern = Pattern.compile("\\((\\d+),(\\d+\\.?\\d*?),€?(\\d+)\\)");
 
 
     /**
